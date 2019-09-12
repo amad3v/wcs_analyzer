@@ -2,7 +2,6 @@
 # Include this file before import PyQt5
 
 from logging import error  #logging
-# import os
 from os import path, environ, pathsep
 import sys
 
