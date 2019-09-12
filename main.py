@@ -1,5 +1,5 @@
 import ctypes
-# import os
+# import os (pathlib is used instead)
 import linecache
 import sys
 from typing import Union, Any, List
@@ -28,6 +28,7 @@ from mods.params import Settings
 from mods.err_report import *
 from ui.mainwindow import Ui_mwWCS
 
+# pathlib.WindowsPath, for posix OSs (linux, macOS) use PosixPath
 # os.path.join(os.environ["HOMEPATH"], "Desktop")
 # home = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
 # if os.name == 'posix':
