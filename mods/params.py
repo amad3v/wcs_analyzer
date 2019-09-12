@@ -6,7 +6,8 @@ class Settings:
     __fail_safe_path: Path
 
     def __init__(self):
-        self.__settings_path = Path.home()  # os.path.expanduser('~') # = os.path.dirname(os.path.realpath(__file__))
+        # os.path.expanduser('~') # = os.path.dirname(os.path.realpath(__file__))
+        self.__settings_path = Path.home()
         # os.path.join(self.__settings_path, 'settings.json')
         self.__settings_file = self.__settings_path.joinpath('settings.json')
         self.__exist = False
