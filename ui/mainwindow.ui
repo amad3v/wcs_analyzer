@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mwWCS</class>
+ <widget class="QMainWindow" name="mwWCS">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>340</width>
+    <height>268</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>340</width>
+    <height>268</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>WCS Analyzer</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>wcs.ico</normaloff>wcs.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>322</width>
+      <height>244</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="lblInput">
+       <property name="text">
+        <string>Input files:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="lstInput"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="pbAdd">
+         <property name="text">
+          <string>&amp;Add files</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pbSave">
+         <property name="text">
+          <string>&amp;Save</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pbClearList">
+         <property name="text">
+          <string>&amp;Clear List</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pbExit">
+         <property name="text">
+          <string>&amp;Exit</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <connections>
+  <connection>
+   <sender>pbClearList</sender>
+   <signal>clicked()</signal>
+   <receiver>lstInput</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>211</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbExit</sender>
+   <signal>clicked()</signal>
+   <receiver>mwWCS</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>292</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>169</x>
+     <y>133</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
