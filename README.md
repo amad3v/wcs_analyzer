@@ -1,2 +1,2 @@
 ## WCS Analyzer
-##### created repo and added README.nd
+##### Created repo and added README.nd
