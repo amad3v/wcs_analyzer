@@ -42,3 +42,5 @@ def get_error_details():
     # line = linecache.getline(filename, lineno, f.f_globals)
     # print('EXCEPTION IN ({}, LINE {} "{}"): {}'.format(Path(filename).name, lineno, line.strip(), exc_obj))
     return 'In: {0} ({1})\n{2}:\n{3}'.format(str(Path(filename).stem), str(lineno), exc_type, exc_obj)
+
+
