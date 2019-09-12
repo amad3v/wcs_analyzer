@@ -141,3 +141,6 @@ class DataToXL:
             # via the close() method.
         finally:
             self.__workbook.close()
+
+
+
