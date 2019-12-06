@@ -1,4 +1,4 @@
-# Fix qt import error
+# Fix qt import error (pyinstaller)
 # Include this file before import PyQt5
 
 from logging import error  #logging

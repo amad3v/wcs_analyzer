@@ -1,18 +1,30 @@
-# import ctypes
 # import linecache
 # import sys
 # from typing import Union, Any, List
-# from pathlib import Path
+from pathlib import Path, WindowsPath
 # import time
-# from mods import fixqt
+from mods import fixqt
 
-from PyQt5 import QtWidgets, QtCore, QtGui
+import ctypes
+
+from PyQt5 import QtWidgets
 from PyQt5.QtGui import QIcon
+
 from mods.csv_extractor import WCS
-from mods.save_xl import DataToXL
-from mods.params import Settings
 from mods.err_report import *
+from mods.params import Settings
+from mods.save_xl import DataToXL
 from ui.mainwindow import Ui_mwWCS
+
+# =======================================#
+# the following is to make the app icon  #
+# visible in the task bar                #
+# =======================================#
+if type(Path.home()) == WindowsPath:
+    # if os.name == 'nt':
+    app_id = 'mj.wcs_analyzer_xx.gui.1.0'  # arbitrary string
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+# =======================================#
 
 # pathlib.WindowsPath, for posix OSs (linux, macOS) use PosixPath
 # os.path.join(os.environ["HOMEPATH"], "Desktop")
