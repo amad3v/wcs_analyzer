@@ -1,9 +1,10 @@
 import csv
+
+
 # from itertools import chain
-from mods.err_report import *
 
 
-class WCS1:
+class WCS:
     def __init__(self, files_list):
         """Initialize WCS instance
 
@@ -58,7 +59,7 @@ class WCS1:
             self.__read_file(file)
             boxes += len(self.__unified_data)
             plates += len([i for i in self.__unified_data if i[0] != ''])
-            self.__exceptions_list += [i for i in self.__unified_data if i[2] == 'EXCEPTION1' or i[2]=='EXCEPTION2']
+            self.__exceptions_list += [i for i in self.__unified_data if i[2] in ['EXCEPTION1', 'EXCEPTION2']]
 
         self.__boxes = boxes  # managed by get_total_boxes
         self.__plates = plates  # managed by get_total_plates
@@ -73,14 +74,17 @@ class WCS1:
             if not i[3]: i[3] = 'No Remark'  # == ''
             if not i[4]: i[4] = 'No Error'  # == ''
 
+    @property
     def get_total_boxes(self):
         """Return the total number of processed boxes/cartons"""
         return self.__boxes
 
+    @property
     def get_total_plates(self):
         """Return the number of orders with license plate"""
         return self.__plates
 
+    @property
     def get_total_exceptions(self):
         """Return the total number of exceptions"""
         return self.__all_exceptions
@@ -98,6 +102,7 @@ class WCS1:
 
         return dic
 
+    @property
     def get_unique_list(self):
         """Return a list of a unique values in a specific column"""
         return list(set([i[1] for i in self.__exceptions_list]))
