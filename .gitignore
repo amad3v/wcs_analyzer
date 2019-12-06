@@ -203,3 +203,6 @@ venv/
 
 # End of https://www.gitignore.io/api/python
 
+# Project specific
+mods/settings
+mods/__pycache__/
