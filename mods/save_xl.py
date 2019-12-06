@@ -3,19 +3,19 @@ from mods.err_report import *
 
 
 class DataToXL:
-    def __init__(self, file, exceptions, processed_boxes, with_plates, boxes_status, errors_list, remarks_list):
+    def __init__(self, file, exceptions, processed_boxes, with_plates, boxes_status, data_list):
         self.__file = file
         self.__exceptions = exceptions
         self.__processed_boxes = processed_boxes
         self.__with_plates = with_plates
         self.__boxes_status = boxes_status
-        self.__errors_list = errors_list
-        self.__remarks_list = remarks_list
+        self.__data_list = data_list.copy()
+        # self.__errors_list = errors_list
+        # self.__remarks_list = remarks_list
         # Start from the first cell. Rows and columns are zero indexed.
         self.__row = 0
         self.__col = 0
-        self.__length_1st_column = []
-        self.__length_2nd_column = []
+        self.__length_columns = [[], []]  # replaces self.__length_1st_column and self.__length_1nd_column
 
         self.__workbook = workbook.Workbook  # <class 'xlsxwriter.workbook.Workbook'>
         self.__worksheet = worksheet.Worksheet  # < class 'xlsxwriter.worksheet.Worksheet'>
@@ -26,7 +26,7 @@ class DataToXL:
         self.__bold = format.Format
 
         self.__chart_type = {'type': 'bar'}  # , 'subtype': 'percent_stacked'}
-        self.__chart_scale = {'x_scale': 2, 'y_scale': 1.5}
+        self.__chart_scale = {'x_scale': 2, 'y_scale': 2}
 
         self.__chart_style = 42
         self.__chart_legend = {'none': True}
@@ -55,7 +55,7 @@ class DataToXL:
                 self.__worksheet.write(self.__row, self.__col + 1, value)
                 self.__row += 1
         except Exception:
-            report_error("Error Writing Headers", get_error_details())
+            report_feedback("Error Writing Headers", get_error_details(), 2)
 
     def __set_chart(self, chart, val, cat, title):
         try:
@@ -64,7 +64,7 @@ class DataToXL:
             chart.set_legend(self.__chart_legend)
             chart.set_title({'name': title})
         except Exception:
-            report_error("Error Setting Chart", get_error_details())
+            report_feedback("Error Setting Chart", get_error_details(), 2)
 
     def __write_data(self, lst):
         try:
@@ -74,25 +74,26 @@ class DataToXL:
                 self.__row += 1
 
         except Exception:
-            report_error("Error Writing Data", get_error_details())
+            report_feedback("Error Writing Data", get_error_details(), 2)
 
     def __unpack_list(self, lst):
-        l1 = [len(str(i[0])) for i in lst]
-        l2 = [len(str(i[1])) for i in lst]
-        self.__length_1st_column += l1
-        self.__length_2nd_column += l2
+        for j in range(2):
+            self.__length_columns[j] += [len(str(i[j])) for i in lst]
 
     def __set_column_width(self, lst_headers):
-        self.__length_1st_column = [len(item[0]) for item in lst_headers]
-        self.__length_2nd_column = [len(str(item[1])) for item in lst_headers]
+        for i in range(2):
+            self.__length_columns[i] = [len(str(item[i])) for item in lst_headers]
 
-        self.__unpack_list(self.__errors_list.items())
-        self.__unpack_list(self.__remarks_list.items())
+        for i in range(2):
+            self.__unpack_list(self.__data_list[i].items())
+        # self.__unpack_list(self.__errors_list.items())
+        # self.__unpack_list(self.__remarks_list.items())
 
-        self.__worksheet.set_column(0, 0, max(self.__length_1st_column))
-        self.__worksheet.set_column(1, 1, max(self.__length_2nd_column))
+        for i in range(2):
+            self.__worksheet.set_column(i, i, max(self.__length_columns[i]))
 
     def save_xl_file(self):
+        """Save collected data to excel file"""
         try:
             self.__setup_workbook()
             # Use the worksheet object to write
@@ -102,9 +103,9 @@ class DataToXL:
                             ['Transport order status', ", ".join([str(i) for i in self.__boxes_status])], ['', ''],
                             ["Results by error:", ""])
 
-            error_cells = list(self.__errors_list.items())
+            error_cells = list(self.__data_list[0].items())
             separator_cells = (['', ''], ["Results by remark:", ""])
-            remark_cells = list(self.__remarks_list.items())
+            remark_cells = list(self.__data_list[1].items())
 
             self.__set_column_width(header_cells)
 
@@ -133,7 +134,7 @@ class DataToXL:
             self.__worksheet_error.insert_chart('B2', self.__chart_error, self.__chart_scale)
             self.__worksheet_remark.insert_chart('B2', self.__chart_remark, self.__chart_scale)
         except Exception:
-            report_error("Error Saving File", get_error_details())
+            report_feedback("Error Saving File", get_error_details(), 2)
             # exc_type, exc_obj, exc_tb = sys.exc_info()
             # f_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             # print(exc_type, f_name, exc_tb.tb_lineno)
@@ -141,6 +142,3 @@ class DataToXL:
             # via the close() method.
         finally:
             self.__workbook.close()
-
-
-
